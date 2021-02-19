@@ -1,4 +1,7 @@
 import React, { Component, Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import routes from '../../routes';
 import logo from '../../logo.svg';
 
 class DefaultLayout extends Component {
@@ -10,20 +13,38 @@ class DefaultLayout extends Component {
   render(){
     return (
         <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload haha
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-          </header>
+            <div className="app-body">
+                <header className="App-header">
+                    <a
+                      className="App-link"
+                      href="https://reactjs.org"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      React hooks template
+                    </a>
+                </header>
+                <main className="main">
+                    <Container>
+                        <Switch>
+                          {
+                            routes.map((route, idx) => {
+                                return route.component ? (
+                                  <Route
+                                    key={idx}
+                                    path={route.path}
+                                    exact={route.exact}
+                                    name={route.name}
+                                    render={props => (
+                                      <route.component {...props} />
+                                    )} />
+                                ) : (null);
+                            })
+                          }
+                        </Switch>
+                    </Container>
+                </main>
+              </div>
         </div>
     );
   };
